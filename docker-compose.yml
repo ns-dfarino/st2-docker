@@ -107,6 +107,7 @@ services:
       - ./files/htpasswd:/etc/st2/htpasswd:ro
   st2actionrunner:
     image: ${ST2_IMAGE_REPO:-stackstorm/}st2actionrunner:${ST2_VERSION:-latest}
+    # image: dan-st2actionrunner
     restart: on-failure
     depends_on:
       - redis
@@ -243,6 +244,14 @@ services:
       - private
     volumes:
       - stackstorm-mongodb:/data/db
+    ports:
+      - "127.0.0.1:27017:27017"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 2G
   rabbitmq:
     image: rabbitmq:3.12
     restart: on-failure
